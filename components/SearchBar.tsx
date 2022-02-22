@@ -1,16 +1,44 @@
-import React from 'react';
-import { StyleSheet, TextInput, View, ScrollView, Animated } from 'react-native';
+// SearchBar.tsx
+// ref: https://blog.logrocket.com/create-react-native-search-bar-from-scratch/
+
+import * as React from 'react';
+import { StyleSheet, TextInput, View, ScrollView, Animated, Pressable, Button, Keyboard } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 export function SearchBar(props: any) {
     return (
         <View style={styles.container}>
-            <View style={
+            <View 
+                style={ 
                 !props.clicked ? styles.searchBar_unclicked: styles.searchBar_clicked
-            }>
+                }
+            >
+            {/* TODO: 颜色可能要封装一下（有亮色/暗色模式） */}
+            <Icon name='search' color={color}/>
+            <TextInput 
+                style={styles.input}
+                placeholder='Search'
+                value={props.searchPhrase}
+                onChangeText={props.setSearchPhrase}
+                onFocus={() =>  {
+                    props.setClicked(true);
+                }}
+            />
+            <Pressable onPress={() => {props.setSearchPhrase("")}}>
+                <Icon name='ban' color={color}/>
+            </Pressable>
+            </View>
+            <View>
+                <Button title="Cancel" onPress={ () => {
+                    Keyboard.dismiss();
+                    props.setClicked(false);
+                }}/>
             </View>
         </View>
     );
 }
+
+const color = 'Black';
 
 const styles = StyleSheet.create({
     container: {
@@ -43,3 +71,11 @@ const styles = StyleSheet.create({
         width: '90%',
     },
 });
+
+// 封装 icon
+function Icon(props: {
+    name: React.ComponentProps<typeof FontAwesome>['name'];
+    color: string;
+  }) {
+    return <FontAwesome size={20} style={{ marginLeft: 1 }} {...props} />;
+  }

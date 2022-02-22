@@ -7,8 +7,12 @@ function Item (props: {
     name: string;
     details: string;
   }) {
-    return {
-    }
+    return (
+        <View style={styles.item}>
+            <Text style={styles.title}>{props.name}</Text>
+            <Text>{props.details}</Text>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
