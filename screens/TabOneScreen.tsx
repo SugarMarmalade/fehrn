@@ -1,31 +1,75 @@
-import { StyleSheet } from 'react-native';
+// TabOneScreen.tsx
+import * as React from "react";
+import { StyleSheet, Text, SafeAreaView, ActivityIndicator } from "react-native";
+//import { List } from "../components/List";
+import { SearchBar } from "../components/SearchBar";
+import { RootTabScreenProps } from "../types";
+//import { demoData } from "../assets/demoData/demoData.json";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
+// zhihu: 如何在 TS 中使用 useState
+// https://zhuanlan.zhihu.com/p/358934875
+interface IData {
+  id: number;
+  name: string;
+  description: string;
+};
+
+/*
+const initDataType: DataType[] = [{
+  id: 0,
+  name: '',
+  description: ''
+}];
+*/
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+  const [searchPhrase, setSearchPhrase] = React.useState("");
+  const [clicked, setClicked] = React.useState(false);
+  const [data, setData] = React.useState<IData[]>([]);
+  
+  // get some data
+  // https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages
+  React.useEffect(() => {
+    const getData = async () => {
+      const apiResponse = await fetch(
+        "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
+      );
+      const ddata = await apiResponse.json();
+      setData(ddata);
+    };
+    getData();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    </View>
+    <SafeAreaView style={styles.root}>
+      {!clicked && <Text style={styles.title}>Heroes</Text>}
+      <SearchBar 
+        searchPhrase={searchPhrase}
+        setSearchPhrase={setSearchPhrase}
+        clicked={clicked}
+        setClicked={setClicked}
+      />
+      {/*
+      <List 
+        searchPhrase={searchPhrase}
+        setClicked={setClicked}
+        data={data}
+      />
+      */}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
+  root: {
     justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 20,
+    width: '100%',
+    marginTop: 20,
+    fontSize: 25,
     fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    marginLeft: '10%',
   },
 });

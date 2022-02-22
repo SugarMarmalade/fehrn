@@ -1,5 +1,6 @@
 // SearchBar.tsx
 // ref: https://blog.logrocket.com/create-react-native-search-bar-from-scratch/
+// 这个动画还是菜啊
 
 import * as React from 'react';
 import { StyleSheet, TextInput, View, ScrollView, Animated, Pressable, Button, Keyboard } from 'react-native';
@@ -24,16 +25,23 @@ export function SearchBar(props: any) {
                     props.setClicked(true);
                 }}
             />
-            <Pressable onPress={() => {props.setSearchPhrase("")}}>
-                <Icon name='ban' color={color}/>
-            </Pressable>
+            {
+                props.clicked && (
+                <Pressable onPress={() => {props.setSearchPhrase("")}}>
+                    <Icon name='close' color={color}/>
+                </Pressable>
+                )
+            }
             </View>
+            {
+                props.clicked && (
             <View>
                 <Button title="Cancel" onPress={ () => {
                     Keyboard.dismiss();
                     props.setClicked(false);
                 }}/>
-            </View>
+            </View>)
+            }
         </View>
     );
 }

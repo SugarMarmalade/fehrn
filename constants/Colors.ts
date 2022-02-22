@@ -1,4 +1,6 @@
-const tintColorLight = '#2f95dc';
+// Check Human Interface Guidelines by Apple
+// https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/color/
+const tintColorLight = '#007aff';
 const tintColorDark = '#fff';
 
 export default {
