@@ -35,18 +35,18 @@ export function SearchBar(props: any) {
             </View>
             {
                 props.clicked && (
-            <View>
-                <Button title="Cancel" onPress={ () => {
-                    Keyboard.dismiss();
-                    props.setClicked(false);
-                }}/>
-            </View>)
+                    <View>
+                        <Button title="Cancel" onPress={ () => {
+                            Keyboard.dismiss();
+                            props.setClicked(false);
+                        }}/>
+                    </View>)
             }
         </View>
     );
 }
 
-const color = 'Black';
+const color = '#000';
 
 const styles = StyleSheet.create({
     container: {

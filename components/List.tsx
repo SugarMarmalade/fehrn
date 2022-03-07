@@ -1,12 +1,17 @@
 // List.tsx
+import { StringLiteral } from '@babel/types';
 import * as React from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, ListRenderItem, TouchableWithoutFeedbackBase } from 'react-native';
 
-// 封装 item
-function Item (props: {
+
+interface IItem {
+    id: string;
     name: string;
     details: string;
-  }) {
+};
+
+// 封装 item
+function Item (props: IItem) {
     return (
         <View style={styles.item}>
             <Text style={styles.title}>{props.name}</Text>
@@ -15,8 +20,9 @@ function Item (props: {
     );
 }
 
-function List (props: any) {
-    const renderItem = ({item}) => {
+export function List (props: any) {
+    /*
+    const renderItem = (item: IItem) => {
             if (props.searchPhrase === "") {
                 return <Item name={item.name} details={item.details} />
             }
@@ -26,18 +32,28 @@ function List (props: any) {
             }
             // filter of the description
     }
+    */
+   const renderItem: ListRenderItem<IItem> = ({ item }) => {
+       if (item.details.toUpperCase().includes(props.searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
+           return <Item id={item.id} name={item.name} details={item.details}/>
+       } else if (item.name.toUpperCase().includes(props.searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
+           return <Item id={item.id} name={item.name} details={item.details}/>
+       } else {
+           return <Item id={item.id} name={item.name} details={item.details}/>
+       }
+    };
 
     return (
-        <SafeAreaView style={styles.list_container}>
+        <SafeAreaView style={styles.list_container} >
             <View 
                 onStartShouldSetResponder={() => {
-                    props.setClicked(false);
+                    props.setClicked(false); return true;
                 }}
             >
                 <FlatList
                     data = {props.data}
                     renderItem = {renderItem}
-                    keyExtractor={(item)=>item.id}
+                    keyExtractor={(item, index)=>item.id}
                 />
             </View>
         </SafeAreaView>

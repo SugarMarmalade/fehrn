@@ -1,7 +1,7 @@
 // TabOneScreen.tsx
 import * as React from "react";
 import { StyleSheet, Text, SafeAreaView, ActivityIndicator } from "react-native";
-//import { List } from "../components/List";
+import { List } from "../components/List";
 import { SearchBar } from "../components/SearchBar";
 import { RootTabScreenProps } from "../types";
 //import { demoData } from "../assets/demoData/demoData.json";
@@ -49,13 +49,13 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         clicked={clicked}
         setClicked={setClicked}
       />
-      {/*
+      {
       <List 
         searchPhrase={searchPhrase}
         setClicked={setClicked}
         data={data}
       />
-      */}
+      }
     </SafeAreaView>
   );
 }
